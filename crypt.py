@@ -1,9 +1,8 @@
 import os, random, struct
 from Crypto.Cipher import AES
 from Crypto import Random
-import sys
 
-def encrypt_file(key, in_filename, out_filename=None, chunksize=64*1024):
+def EncryptFile(key, in_filename, out_filename=None, chunksize=64*1024):
     """ Encrypts a file using AES (CBC mode) with the
         given key.
 
@@ -45,7 +44,7 @@ def encrypt_file(key, in_filename, out_filename=None, chunksize=64*1024):
 
                 outfile.write(encryptor.encrypt(chunk))
 
-def decrypt_file(key, in_filename, out_filename=None, chunksize=24*1024):
+def DecryptFile(key, in_filename, out_filename=None, chunksize=24*1024):
     """ Decrypts a file using AES (CBC mode) with the
         given key. Parameters are similar to encrypt_file,
         with one difference: out_filename, if not supplied
@@ -69,3 +68,8 @@ def decrypt_file(key, in_filename, out_filename=None, chunksize=24*1024):
                 outfile.write(decryptor.decrypt(chunk))
 
             outfile.truncate(origsize)
+
+def GenerateKey(size = 32): #probably quite unsecure 
+    if size != 16 and size != 24 and size != 32:
+        raise ValueError('size must be either 16, 24 or 32')
+    return Random.new().read(size)
